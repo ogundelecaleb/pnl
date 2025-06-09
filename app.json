@@ -10,7 +10,7 @@
     "splash": {
       "image": "./assets/splash-icon.png",
       "resizeMode": "cover",
-      "backgroundColor": "#ffffff"
+      "backgroundColor": "#26ae5f"
     },
     "ios": {
       "supportsTablet": true,
@@ -19,7 +19,7 @@
     "android": {
       "adaptiveIcon": {
         "foregroundImage": "./assets/adaptive-icon.jpg",
-        "backgroundColor": "#ffffff"
+        "backgroundColor": "#26ae5f"
       },
       "package": "com.vantapp.vantbussiness"
     },
