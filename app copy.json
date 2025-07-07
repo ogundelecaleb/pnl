@@ -2,37 +2,26 @@
   "expo": {
     "name": "vant-business",
     "slug": "vant-bussiness",
-    "version": "1.2.0",
+    "version": "1.1.0",
     "orientation": "portrait",
-    "icon": "./assets/icon.png",
+    "icon": "./assets/adaptive-icon.png",
     "userInterfaceStyle": "light",
     "newArchEnabled": true,
     "splash": {
       "image": "./assets/splash-icon.png",
-      "resizeMode": "contain",
+      "resizeMode": "cover",
       "backgroundColor": "#26ae5f"
     },
     "ios": {
       "supportsTablet": true,
-      "bundleIdentifier": "com.vantapp.vantbussiness",
-      "splash": {
-        "image": "./assets/splash-icon.png",
-        "resizeMode": "contain",
-        "backgroundColor": "#26ae5f"
-      }
+      "bundleIdentifier": "com.vantapp.vantbussiness"
     },
     "android": {
       "adaptiveIcon": {
-        "foregroundImage": "./assets/adaptive-icon.png",
+        "foregroundImage": "./assets/splash-icon.png",
         "backgroundColor": "#26ae5f"
       },
-      "package": "com.vantapp.vantbussiness",
-      "splash": {
-        "image": "./assets/splash-icon.png",
-        "resizeMode": "contain",
-        "backgroundColor": "#26ae5f"
-       
-      }
+      "package": "com.vantapp.vantbussiness"
     },
     "web": {
       "favicon": "./assets/favicon.png"
