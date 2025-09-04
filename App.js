@@ -20,18 +20,18 @@ import * as MediaLibrary from "expo-media-library";
 import NetInfo from "@react-native-community/netinfo";
 import { Animated, Easing } from "react-native";
 
-const { width, height } = Dimensions.get('window');
+const { width, height } = Dimensions.get("window");
 
 const App = () => {
   const webViewRef = useRef(null);
-  const [isLoading, setIsLoading] = useState(true);
+  const [isLoading, setIsLoading] = useState(false);
   const [isConnected, setIsConnected] = useState(true);
   const [loadError, setLoadError] = useState(false);
   const [retryAttempts, setRetryAttempts] = useState(0);
 
   // Monitor network connectivity
   useEffect(() => {
-    const unsubscribe = NetInfo.addEventListener(state => {
+    const unsubscribe = NetInfo.addEventListener((state) => {
       setIsConnected(state.isConnected);
       if (state.isConnected && loadError) {
         // Auto-retry when connection is restored
@@ -54,8 +54,8 @@ const App = () => {
   // Handle retry
   const handleRetry = () => {
     setLoadError(false);
-    setIsLoading(true);
-    setRetryAttempts(prev => prev + 1);
+    // setIsLoading(true);
+    setRetryAttempts((prev) => prev + 1);
     webViewRef.current?.reload();
   };
 
@@ -80,22 +80,22 @@ const App = () => {
   // Check if URL should be handled externally
   const shouldHandleExternally = (url) => {
     const externalSchemes = [
-      'whatsapp://',
-      'https://wa.me/',
-      'https://api.whatsapp.com/',
-      'tel:',
-      'mailto:',
-      'sms:',
-      'tg://', // Telegram
-      'fb://', // Facebook
-      'twitter://',
-      'instagram://',
-      'youtube://',
-      'maps://',
-      'comgooglemaps://', // Google Maps
+      "whatsapp://",
+      "https://wa.me/",
+      "https://api.whatsapp.com/",
+      "tel:",
+      "mailto:",
+      "sms:",
+      "tg://", // Telegram
+      "fb://", // Facebook
+      "twitter://",
+      "instagram://",
+      "youtube://",
+      "maps://",
+      "comgooglemaps://", // Google Maps
     ];
-    
-    return externalSchemes.some(scheme => url.startsWith(scheme));
+
+    return externalSchemes.some((scheme) => url.startsWith(scheme));
   };
 
   // Handle file download
@@ -224,7 +224,7 @@ const App = () => {
         <View style={styles.loadingContent}>
           {/* <ActivityIndicator size="large" color="#007AFF" /> */}
           <Animated.Image
-            source={require("./assets/vanticon.png")}
+            source={require("./assets/playstore.png")}
             style={{
               width: 80,
               height: 80,
@@ -247,16 +247,16 @@ const App = () => {
         <View style={styles.errorIcon}>
           <Text style={styles.errorIconText}>📡</Text>
         </View>
-        
+
         <Text style={styles.errorTitle}>No Internet Connection</Text>
         <Text style={styles.errorMessage}>
           Please check your internet connection and try again.
         </Text>
-        
+
         <TouchableOpacity style={styles.retryButton} onPress={handleRetry}>
           <Text style={styles.retryButtonText}>Retry</Text>
         </TouchableOpacity>
-        
+
         <Text style={styles.retryCount}>
           {retryAttempts > 0 && `Retry attempts: ${retryAttempts}`}
         </Text>
@@ -271,12 +271,12 @@ const App = () => {
         <View style={styles.errorIcon}>
           <Text style={styles.errorIconText}>⚠️</Text>
         </View>
-        
+
         <Text style={styles.errorTitle}>Failed to Load</Text>
         <Text style={styles.errorMessage}>
           Something went wrong while loading the page.
         </Text>
-        
+
         <TouchableOpacity style={styles.retryButton} onPress={handleRetry}>
           <Text style={styles.retryButtonText}>Try Again</Text>
         </TouchableOpacity>
@@ -287,7 +287,7 @@ const App = () => {
   return (
     <SafeAreaView style={styles.container}>
       <StatusBar barStyle="dark-content" backgroundColor="#ffffff" />
-      
+
       {/* Show network error when offline */}
       {!isConnected ? (
         <NetworkErrorComponent />
@@ -297,69 +297,74 @@ const App = () => {
         <>
           <WebView
             ref={webViewRef}
-            source={{ uri: "https://business.vant.ng/" }}
+            source={{ uri: "https://pnlhub.vercel.app/" }}
             style={styles.webview}
             javaScriptEnabled={true}
-            onLoadStart={() => {
-              setIsLoading(true);
-              setLoadError(false);
-            }}
-            onLoadEnd={() => {
-              setIsLoading(false);
-            }}
+            // onLoadStart={() => {
+            //   setIsLoading(true);
+
+            //   setLoadError(false);
+            // }}
+            // onLoadEnd={() => {
+            //   setIsLoading(false);
+
+            //   setTimeout(() => {
+            //     setIsLoading(false);
+            //   }, 100)
+
+            // }}
+            renderLoading={() => <LoadingComponent />}
             onError={(syntheticEvent) => {
               const { nativeEvent } = syntheticEvent;
-              console.warn('WebView error: ', nativeEvent);
+              console.warn("WebView error: ", nativeEvent);
               setLoadError(true);
               setIsLoading(false);
             }}
             onHttpError={(syntheticEvent) => {
               const { nativeEvent } = syntheticEvent;
-              console.warn('WebView HTTP error: ', nativeEvent);
+              console.warn("WebView HTTP error: ", nativeEvent);
               setLoadError(true);
               setIsLoading(false);
             }}
             onMessage={async (event) => {
               try {
                 const message = JSON.parse(event.nativeEvent.data);
-                
-                if (message.type === 'EXCEL_EXPORT') {
+
+                if (message.type === "EXCEL_EXPORT") {
                   const fileUri = `${FileSystem.cacheDirectory}${message.filename}`;
                   await FileSystem.writeAsStringAsync(fileUri, message.data, {
                     encoding: FileSystem.EncodingType.Base64,
                   });
-                  
+
                   await Sharing.shareAsync(fileUri, {
-                    mimeType: message.mimeType || 
-                             'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet',
-                    dialogTitle: message.dialogTitle || 'Save Document',
+                    mimeType:
+                      message.mimeType ||
+                      "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet",
+                    dialogTitle: message.dialogTitle || "Save Document",
                   });
-                }
-                
-                else if (message.type === 'IMAGE_CAPTURE') {
+                } else if (message.type === "IMAGE_CAPTURE") {
                   const fileUri = `${FileSystem.cacheDirectory}${message.filename}`;
                   await FileSystem.writeAsStringAsync(fileUri, message.data, {
                     encoding: FileSystem.EncodingType.Base64,
                   });
-                  
+
                   await Sharing.shareAsync(fileUri, {
-                    mimeType: message.mimeType || 'image/png',
-                    dialogTitle: message.dialogTitle || 'Save Image',
-                    UTI: 'public.png'
+                    mimeType: message.mimeType || "image/png",
+                    dialogTitle: message.dialogTitle || "Save Image",
+                    UTI: "public.png",
                   });
                 }
-                
+
                 setTimeout(async () => {
                   try {
                     await FileSystem.deleteAsync(fileUri, { idempotent: true });
                   } catch (cleanupError) {
-                    console.log('Cleanup error:', cleanupError);
+                    console.log("Cleanup error:", cleanupError);
                   }
                 }, 30000);
-          
               } catch (error) {
-                Alert.alert('Error', 'Failed to save file: ' + error.message);
-                console.error('File save error:', error);
+                Alert.alert("Error", "Failed to save file: " + error.message);
+                console.error("File save error:", error);
               }
             }}
             injectedJavaScriptBeforeContentLoaded={`
@@ -411,7 +416,7 @@ const App = () => {
               true;
             `}
             domStorageEnabled={true}
-            startInLoadingState={false}
+            startInLoadingState={true}
             scalesPageToFit={true}
             allowsBackForwardNavigationGestures={true}
             userAgent="Mozilla/5.0 (iPhone; CPU iPhone OS 15_0 like Mac OS X) AppleWebKit/605.1.15 (KHTML, like Gecko) Version/15.0 Mobile/15E148 Safari/604.1"
@@ -430,9 +435,9 @@ const App = () => {
             originWhitelist={["https://*", "http://*"]}
             mixedContentMode="always"
           />
-          
+
           {/* Custom Loading Overlay */}
-          {isLoading && <LoadingComponent />}
+          {/* {isLoading && <LoadingComponent />} */}
         </>
       )}
     </SafeAreaView>
@@ -448,52 +453,52 @@ const styles = StyleSheet.create({
     flex: 1,
   },
   loadingContainer: {
-    position: 'absolute',
+    position: "absolute",
     top: 0,
     left: 0,
     right: 0,
     bottom: 0,
-    backgroundColor: 'rgba(255, 255, 255, 0.9)',
-    justifyContent: 'center',
-    alignItems: 'center',
+    backgroundColor: "rgba(255, 255, 255, 0.9)",
+    justifyContent: "center",
+    alignItems: "center",
     zIndex: 1000,
   },
   loadingContent: {
-    alignItems: 'center',
+    alignItems: "center",
     padding: 20,
   },
   loadingText: {
     marginTop: 15,
     fontSize: 18,
-    fontWeight: '600',
-    color: '#333',
+    fontWeight: "600",
+    color: "#333",
   },
   loadingSubtext: {
     marginTop: 8,
     fontSize: 14,
-    color: '#666',
-    textAlign: 'center',
+    color: "#666",
+    textAlign: "center",
   },
   errorContainer: {
     flex: 1,
-    justifyContent: 'center',
-    alignItems: 'center',
-    backgroundColor: '#f8f9fa',
+    justifyContent: "center",
+    alignItems: "center",
+    backgroundColor: "#f8f9fa",
     padding: 20,
   },
   errorContent: {
-    alignItems: 'center',
+    alignItems: "center",
     maxWidth: 300,
   },
   errorIcon: {
     width: 80,
     height: 80,
     borderRadius: 40,
-    backgroundColor: '#fff',
-    justifyContent: 'center',
-    alignItems: 'center',
+    backgroundColor: "#fff",
+    justifyContent: "center",
+    alignItems: "center",
     marginBottom: 20,
-    shadowColor: '#000',
+    shadowColor: "#000",
     shadowOffset: {
       width: 0,
       height: 2,
@@ -507,33 +512,33 @@ const styles = StyleSheet.create({
   },
   errorTitle: {
     fontSize: 24,
-    fontWeight: 'bold',
-    color: '#333',
+    fontWeight: "bold",
+    color: "#333",
     marginBottom: 10,
-    textAlign: 'center',
+    textAlign: "center",
   },
   errorMessage: {
     fontSize: 16,
-    color: '#666',
-    textAlign: 'center',
+    color: "#666",
+    textAlign: "center",
     lineHeight: 24,
     marginBottom: 30,
   },
   retryButton: {
-    backgroundColor: '#007AFF',
+    backgroundColor: "#26ae5f",
     paddingHorizontal: 30,
     paddingVertical: 12,
     borderRadius: 25,
     marginBottom: 10,
   },
   retryButtonText: {
-    color: '#fff',
+    color: "#fff",
     fontSize: 16,
-    fontWeight: '600',
+    fontWeight: "600",
   },
   retryCount: {
     fontSize: 12,
-    color: '#999',
+    color: "#999",
     marginTop: 10,
   },
 });

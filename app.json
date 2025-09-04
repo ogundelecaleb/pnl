@@ -1,37 +1,36 @@
 {
   "expo": {
-    "name": "vant-business",
-    "slug": "vant-bussiness",
-    "version": "1.2.0",
+    "name": "pnlhub",
+    "slug": "pnlhub",
+    "version": "1.0.0",
     "orientation": "portrait",
-    "icon": "./assets/icon.png",
+    "icon": "./assets/adaptive-icon.png",
     "userInterfaceStyle": "light",
     "newArchEnabled": true,
     "splash": {
-      "image": "./assets/splash-icon.png",
+      "image": "./assets/playstore.png",
       "resizeMode": "contain",
-      "backgroundColor": "#26ae5f"
+      "backgroundColor": "#fff"
     },
     "ios": {
       "supportsTablet": true,
-      "bundleIdentifier": "com.vantapp.vantbussiness",
+      "bundleIdentifier": "com.pnlhub",
       "splash": {
-        "image": "./assets/splash-icon.png",
+        "image": "./assets/playstore.png",
         "resizeMode": "contain",
-        "backgroundColor": "#26ae5f"
+        "backgroundColor": "#fff"
       }
     },
     "android": {
       "adaptiveIcon": {
-        "foregroundImage": "./assets/adaptive-icon.png",
-        "backgroundColor": "#26ae5f"
+        "foregroundImage": "./assets/playstore.png",
+        "backgroundColor": "#fff"
       },
-      "package": "com.vantapp.vantbussiness",
+      "package": "com.pnlhub",
       "splash": {
-        "image": "./assets/splash-icon.png",
+        "image": "./assets/playstore.png",
         "resizeMode": "contain",
-        "backgroundColor": "#26ae5f"
-       
+        "backgroundColor": "#fff"
       }
     },
     "web": {
@@ -39,7 +38,7 @@
     },
     "extra": {
       "eas": {
-        "projectId": "dc1417d6-75f9-49fb-b2d8-3687d501f85d"
+        "projectId": "5fc80907-d69b-4e3a-868c-4e0505d1ab49"
       }
     },
     "owner": "vant-app"
