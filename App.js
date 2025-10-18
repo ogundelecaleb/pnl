@@ -297,22 +297,10 @@ const App = () => {
         <>
           <WebView
             ref={webViewRef}
-            source={{ uri: "https://pnlhub.vercel.app/" }}
+            source={{ uri: "https://app.pnlhub.org" }}
             style={styles.webview}
             javaScriptEnabled={true}
-            // onLoadStart={() => {
-            //   setIsLoading(true);
-
-            //   setLoadError(false);
-            // }}
-            // onLoadEnd={() => {
-            //   setIsLoading(false);
-
-            //   setTimeout(() => {
-            //     setIsLoading(false);
-            //   }, 100)
-
-            // }}
+            
             renderLoading={() => <LoadingComponent />}
             onError={(syntheticEvent) => {
               const { nativeEvent } = syntheticEvent;
