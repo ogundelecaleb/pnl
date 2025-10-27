@@ -1,7 +1,7 @@
 {
   "expo": {
-    "name": "pnlhub transporter",
-    "slug": "pnlhub-transporter",
+    "name": "pnlhub",
+    "slug": "pnlhub",
     "version": "1.4.0",
     "orientation": "portrait",
     "icon": "./assets/adaptive-icon.jpg",
@@ -14,7 +14,7 @@
     },
     "ios": {
       "supportsTablet": true,
-      "bundleIdentifier": "com.pnlhubtransporter",
+      "bundleIdentifier": "com.pnlhub",
       "splash": {
         "image": "./assets/playstore.png",
         "resizeMode": "contain",
@@ -27,9 +27,9 @@
         "backgroundColor": "#ffffff"
       },
       "targetSdkVersion": 35,
-            "versionCode": 4,
+                  "versionCode": 4,
 
-      "package": "com.pnlhub_transporter",
+      "package": "com.pnlhub",
       "splash": {
         "image": "./assets/playstore.png",
         "resizeMode": "contain",
@@ -41,7 +41,7 @@
     },
     "extra": {
       "eas": {
-        "projectId": "b183b3b4-2f04-44a7-bd5c-19b9c5249b57"
+        "projectId": "5fc80907-d69b-4e3a-868c-4e0505d1ab49"
       }
     },
     "owner": "vant-app"
