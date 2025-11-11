@@ -1,8 +1,8 @@
 {
   "expo": {
-    "name": "pnlhub transporter",
+ "name": "Pnlhub Transporters App", 
     "slug": "pnlhub-transporter",
-    "version": "1.4.0",
+    "version": "1.8.0",
     "orientation": "portrait",
     "icon": "./assets/adaptive-icon.jpg",
     "userInterfaceStyle": "light",
@@ -27,8 +27,8 @@
         "backgroundColor": "#ffffff"
       },
       "targetSdkVersion": 35,
-      "versionCode": 4,
-      "package": "com.pnlhub_transporter",
+      "versionCode": 1,
+      "package": "com.pnlhub_transporter_app",
       "splash": {
         "image": "./assets/playstore.png",
         "resizeMode": "contain",

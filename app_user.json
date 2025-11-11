@@ -2,7 +2,7 @@
   "expo": {
     "name": "pnlhub",
     "slug": "pnlhub",
-    "version": "1.4.0",
+    "version": "1.6.0",
     "orientation": "portrait",
     "icon": "./assets/adaptive-icon.jpg",
     "userInterfaceStyle": "light",
@@ -14,7 +14,7 @@
     },
     "ios": {
       "supportsTablet": true,
-      "bundleIdentifier": "com.pnlhub",
+      "bundleIdentifier": "com.pnlhubs",
       "splash": {
         "image": "./assets/playstore.png",
         "resizeMode": "contain",
@@ -27,7 +27,7 @@
         "backgroundColor": "#ffffff"
       },
       "targetSdkVersion": 35,
-                  "versionCode": 4,
+      "versionCode": 5,
 
       "package": "com.pnlhub",
       "splash": {

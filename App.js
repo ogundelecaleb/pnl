@@ -14,9 +14,8 @@ import {
   Linking,
 } from "react-native";
 import { WebView } from "react-native-webview";
-import * as FileSystem from "expo-file-system";
-import * as Sharing from "expo-sharing";
-import * as MediaLibrary from "expo-media-library";
+
+// import * as MediaLibrary from "expo-media-library";
 import NetInfo from "@react-native-community/netinfo";
 import { Animated, Easing } from "react-native";
 
@@ -43,13 +42,13 @@ const App = () => {
   }, [loadError]);
 
   // Request permissions for Android
-  const requestPermissions = async () => {
-    if (Platform.OS === "android") {
-      const { status } = await MediaLibrary.requestPermissionsAsync();
-      return status === "granted";
-    }
-    return true;
-  };
+  // const requestPermissions = async () => {
+  //   if (Platform.OS === "android") {
+  //     const { status } = await MediaLibrary.requestPermissionsAsync();
+  //     return status === "granted";
+  //   }
+  //   return true;
+  // };
 
   // Handle retry
   const handleRetry = () => {
@@ -99,54 +98,54 @@ const App = () => {
   };
 
   // Handle file download
-  const handleDownload = async (url) => {
-    try {
-      const hasPermission = await requestPermissions();
-      if (!hasPermission) {
-        Alert.alert(
-          "Permission required",
-          "Please allow storage access to download files"
-        );
-        return;
-      }
+  // const handleDownload = async (url) => {
+  //   try {
+  //     // const hasPermission = await requestPermissions();
+  //     // if (!hasPermission) {
+  //     //   Alert.alert(
+  //     //     "Permission required",
+  //     //     "Please allow storage access to download files"
+  //     //   );
+  //     //   return;
+  //     // }
 
-      Alert.alert("Download started", "Your file is being downloaded", [
-        { text: "OK", onPress: () => {} },
-      ]);
+  //     // Alert.alert("Download started", "Your file is being downloaded", [
+  //     //   { text: "OK", onPress: () => {} },
+  //     // ]);
 
-      const filename = url.split("/").pop() || `download_${Date.now()}`;
-      const downloadPath = `${FileSystem.documentDirectory}${filename}`;
+  //     // const filename = url.split("/").pop() || `download_${Date.now()}`;
+  //     // const downloadPath = `${FileSystem.documentDirectory}${filename}`;
 
-      const downloadResumable = FileSystem.createDownloadResumable(
-        url,
-        downloadPath,
-        {},
-        (downloadProgress) => {
-          const progress =
-            downloadProgress.totalBytesWritten /
-            downloadProgress.totalBytesExpectedToWrite;
-          console.log(`Download progress: ${Math.round(progress * 100)}%`);
-        }
-      );
+  //     // const downloadResumable = FileSystem.createDownloadResumable(
+  //     //   url,
+  //     //   downloadPath,
+  //     //   {},
+  //     //   (downloadProgress) => {
+  //     //     const progress =
+  //     //       downloadProgress.totalBytesWritten /
+  //     //       downloadProgress.totalBytesExpectedToWrite;
+  //     //     console.log(`Download progress: ${Math.round(progress * 100)}%`);
+  //     //   }
+  //     // );
 
-      const { uri } = await downloadResumable.downloadAsync();
-      console.log("Finished downloading to", uri);
+  //     // const { uri } = await downloadResumable.downloadAsync();
+  //     // console.log("Finished downloading to", uri);
 
-      if (filename.match(/\.(jpg|jpeg|png|gif)$/i)) {
-        await MediaLibrary.saveToLibraryAsync(uri);
-        Alert.alert("Success", "Image saved to your gallery");
-      } else {
-        if (await Sharing.isAvailableAsync()) {
-          await Sharing.shareAsync(uri);
-        } else {
-          Alert.alert("Success", `File downloaded to: ${uri}`);
-        }
-      }
-    } catch (error) {
-      console.error("Download failed:", error);
-      Alert.alert("Error", "Failed to download file");
-    }
-  };
+  //     // if (filename.match(/\.(jpg|jpeg|png|gif)$/i)) {
+  //     //   await MediaLibrary.saveToLibraryAsync(uri);
+  //     //   Alert.alert("Success", "Image saved to your gallery");
+  //     // } else {
+  //     //   if (await Sharing.isAvailableAsync()) {
+  //     //     await Sharing.shareAsync(uri);
+  //     //   } else {
+  //     //     Alert.alert("Success", `File downloaded to: ${uri}`);
+  //     //   }
+  //     // }
+  //   } catch (error) {
+  //     console.error("Download failed:", error);
+  //     Alert.alert("Error", "Failed to download file");
+  //   }
+  // };
 
   const INJECTED_JAVASCRIPT = `(function() {
     document.addEventListener('click', function(e) {
@@ -169,30 +168,30 @@ const App = () => {
     );
   };
 
-  const onNavigationStateChange = (navState) => {
-    // Handle external links first
-    if (shouldHandleExternally(navState.url)) {
-      handleExternalLink(navState.url);
-      return false; // Prevent WebView from navigating
-    }
+  // const onNavigationStateChange = (navState) => {
+  //   // Handle external links first
+  //   if (shouldHandleExternally(navState.url)) {
+  //     handleExternalLink(navState.url);
+  //     return false; // Prevent WebView from navigating
+  //   }
 
-    if (navState.url.startsWith("blob:")) {
-      handleBlobUrl(navState.url);
-      webViewRef.current.stopLoading();
-      return false;
-    }
+  //   if (navState.url.startsWith("blob:")) {
+  //     handleBlobUrl(navState.url);
+  //     webViewRef.current.stopLoading();
+  //     return false;
+  //   }
 
-    if (
-      navState.url.match(
-        /\.(pdf|doc|docx|xls|xlsx|ppt|pptx|jpg|jpeg|png|gif|mp3|mp4|zip|rar)$/i
-      )
-    ) {
-      handleDownload(navState.url);
-      webViewRef.current.stopLoading();
-      return false;
-    }
-    return true;
-  };
+  //   if (
+  //     navState.url.match(
+  //       /\.(pdf|doc|docx|xls|xlsx|ppt|pptx|jpg|jpeg|png|gif|mp3|mp4|zip|rar)$/i
+  //     )
+  //   ) {
+  //     handleDownload(navState.url);
+  //     webViewRef.current.stopLoading();
+  //     return false;
+  //   }
+  //   return true;
+  // };
 
   // Custom Loading Component
   const LoadingComponent = () => {
@@ -283,6 +282,7 @@ const App = () => {
       </View>
     </View>
   );
+            
 
   return (
     <SafeAreaView style={styles.container}>
@@ -314,95 +314,10 @@ const App = () => {
               setLoadError(true);
               setIsLoading(false);
             }}
-            onMessage={async (event) => {
-              try {
-                const message = JSON.parse(event.nativeEvent.data);
-
-                if (message.type === "EXCEL_EXPORT") {
-                  const fileUri = `${FileSystem.cacheDirectory}${message.filename}`;
-                  await FileSystem.writeAsStringAsync(fileUri, message.data, {
-                    encoding: FileSystem.EncodingType.Base64,
-                  });
-
-                  await Sharing.shareAsync(fileUri, {
-                    mimeType:
-                      message.mimeType ||
-                      "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet",
-                    dialogTitle: message.dialogTitle || "Save Document",
-                  });
-                } else if (message.type === "IMAGE_CAPTURE") {
-                  const fileUri = `${FileSystem.cacheDirectory}${message.filename}`;
-                  await FileSystem.writeAsStringAsync(fileUri, message.data, {
-                    encoding: FileSystem.EncodingType.Base64,
-                  });
-
-                  await Sharing.shareAsync(fileUri, {
-                    mimeType: message.mimeType || "image/png",
-                    dialogTitle: message.dialogTitle || "Save Image",
-                    UTI: "public.png",
-                  });
-                }
-
-                setTimeout(async () => {
-                  try {
-                    await FileSystem.deleteAsync(fileUri, { idempotent: true });
-                  } catch (cleanupError) {
-                    console.log("Cleanup error:", cleanupError);
-                  }
-                }, 30000);
-              } catch (error) {
-                Alert.alert("Error", "Failed to save file: " + error.message);
-                console.error("File save error:", error);
-              }
+onMessage={(event) => {
+              // Handle messages from WebView if needed
             }}
-            injectedJavaScriptBeforeContentLoaded={`
-              window.webViewFileSaver = {
-                saveAs: function(blob, filename, mimeType, dialogTitle) {
-                  return new Promise((resolve, reject) => {
-                    const reader = new FileReader();
-                    reader.onloadend = function() {
-                      const base64data = reader.result.split(',')[1];
-                      window.ReactNativeWebView.postMessage(JSON.stringify({
-                        type: blob.type.includes('image') ? 'IMAGE_CAPTURE' : 'EXCEL_EXPORT',
-                        filename: filename,
-                        data: base64data,
-                        mimeType: blob.type,
-                        dialogTitle: dialogTitle
-                      }));
-                      resolve();
-                    };
-                    reader.onerror = reject;
-                    reader.readAsDataURL(blob);
-                  });
-                },
-                
-                captureElement: async function(element, filename) {
-                  try {
-                    if (typeof html2canvas !== 'function') {
-                      throw new Error('html2canvas not loaded');
-                    }
-                    
-                    const canvas = await html2canvas(element, {
-                      useCORS: true,
-                      scale: 2
-                    });
-                    
-                    return new Promise((resolve) => {
-                      canvas.toBlob(async (blob) => {
-                        await this.saveAs(blob, filename, 'image/png', 'Save Image');
-                        resolve();
-                      }, 'image/png');
-                    });
-                  } catch (error) {
-                    console.error('Capture error:', error);
-                    throw error;
-                  }
-                }
-              };
-              
-              window.saveAs = window.webViewFileSaver.saveAs;
-              true;
-            `}
+            // injectedJavaScriptBeforeContentLoaded={ }
             domStorageEnabled={true}
             startInLoadingState={true}
             scalesPageToFit={true}
@@ -416,7 +331,7 @@ const App = () => {
               }
               return true; // Allow WebView to load
             }}
-            onNavigationStateChange={onNavigationStateChange}
+            // onNavigationStateChange={onNavigationStateChange}
             allowFileAccess={true}
             allowUniversalAccessFromFileURLs={true}
             allowFileAccessFromFileURLs={true}
