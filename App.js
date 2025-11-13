@@ -282,7 +282,6 @@ const App = () => {
       </View>
     </View>
   );
-            
 
   return (
     <SafeAreaView style={styles.container}>
@@ -297,14 +296,34 @@ const App = () => {
         <>
           <WebView
             ref={webViewRef}
-            source={{ uri: "https://transporter.pnlhub.org" }}
+            source={{ uri: "https://app.pnlhub.org/" }}
             style={styles.webview}
             javaScriptEnabled={true}
-            
+            incognito={true}
+            // injectedJavaScript={`
+            //   // Remove capture attribute and modify file inputs to only show file picker
+            //   function modifyFileInputs() {
+            //     const inputs = document.querySelectorAll('input[type="file"]');
+            //     inputs.forEach(input => {
+            //       input.removeAttribute('capture');
+            //       input.setAttribute('accept', 'image/*');
+            //     });
+            //   }
+              
+            //   // Run immediately and on DOM changes
+            //   modifyFileInputs();
+              
+            //   // Observer for dynamically added inputs
+            //   const observer = new MutationObserver(() => {
+            //     modifyFileInputs();
+            //   });
+            //   observer.observe(document.body, { childList: true, subtree: true });
+              
+            //   true;
+            // `}
             renderLoading={() => <LoadingComponent />}
             onError={(syntheticEvent) => {
               const { nativeEvent } = syntheticEvent;
-              console.warn("WebView error: ", nativeEvent);
               setLoadError(true);
               setIsLoading(false);
             }}
@@ -314,7 +333,7 @@ const App = () => {
               setLoadError(true);
               setIsLoading(false);
             }}
-onMessage={(event) => {
+            onMessage={(event) => {
               // Handle messages from WebView if needed
             }}
             // injectedJavaScriptBeforeContentLoaded={ }
@@ -333,8 +352,8 @@ onMessage={(event) => {
             }}
             // onNavigationStateChange={onNavigationStateChange}
             allowFileAccess={true}
-            allowUniversalAccessFromFileURLs={true}
-            allowFileAccessFromFileURLs={true}
+            // allowUniversalAccessFromFileURLs={true}
+            // allowFileAccessFromFileURLs={true}
             originWhitelist={["https://*", "http://*"]}
             mixedContentMode="always"
           />

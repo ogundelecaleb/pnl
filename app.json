@@ -15,6 +15,9 @@
     "ios": {
       "supportsTablet": true,
       "bundleIdentifier": "com.pnlhubtransporter",
+      "infoPlist": {
+        "NSCameraUsageDescription": "This app needs camera access to take photos for uploads."
+      },
       "splash": {
         "image": "./assets/playstore.png",
         "resizeMode": "contain",
